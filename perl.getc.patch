@@ -1,0 +1,15 @@
+--- pp_sys.c	2019-04-07 18:52:06.408479600 +0900
++++ pp_sys.c.patched	2019-04-07 18:49:35.542841700 +0900
+@@ -1373,9 +1373,10 @@ PP(pp_getc)
+ 	}
+     }
+     if (!gv || do_eof(gv)) { /* make sure we have fp with something */
+-	if (!io || (!IoIFP(io) && IoTYPE(io) != IoTYPE_WRONLY))
++	if (!io || (!IoIFP(io) && IoTYPE(io) != IoTYPE_WRONLY)) {
+ 	    report_evil_fh(gv);
+-	SETERRNO(EBADF,RMS_IFI);
++            SETERRNO(EBADF,RMS_IFI);
++        }
+ 	RETPUSHUNDEF;
+     }
+     TAINT;
